@@ -4,8 +4,9 @@ import "./AddBook.scss"
 
 export default function AddBook() {
     let { bookId } = useParams();
-
+    // le state (la variable et comment on la met à jour)
     const [bookData, setBookData] = React.useState({name: '', categoryId: 1 })
+
     const categories = [{
         id: 1,
         label: "BD"
@@ -24,9 +25,10 @@ export default function AddBook() {
     }
 
     const handleChange = (event) => {
-        let currentState = {...bookData};
+        // pour sauvegarder l'état du composant  <- state (props pas fait pour fait pour les trucs dynamique)
+        let currentState = {...bookData}; //"copie" de l'objet
         currentState[event.target.name] = event.target.value;
-        setBookData(currentState)
+        setBookData(currentState)  // hooks au lieu de setState (qu'on avait avec les classes)
     }
 
     const onSubmit = (event) => {
@@ -42,11 +44,11 @@ export default function AddBook() {
                 <form onSubmit={onSubmit}>
                     <div>
                         <label>Nom du livre</label>
-                        <input name="name" type="text" className="form-control"></input>
+                        <input name="name" type="text" className="form-control" onChange={handleChange}></input>
                     </div>
                     <div>
                         <label>Catégorie du livre</label>
-                        <select name="categoryId" className="form-control">
+                        <select name="categoryId" className="form-control" onChange={handleChange}>
                             {categories.map(category => (
                                 <option key={category.id} value={category.id}>{category.label}</option>
                             ))}
