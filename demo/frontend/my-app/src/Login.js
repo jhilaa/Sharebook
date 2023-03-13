@@ -5,8 +5,25 @@ import './login.scss';
 
 export default class Login extends React.Component {
 constructor() {
-    super()
-    this.state = {userData: {}}
+    super();
+    this.state = { userData: {} }
+    this.handleChange = this.handleChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    handleChange (event) {
+        //TODO
+        //le ... permet de dupliquer l'objet
+        let currentState = {...this.state.userData};
+        currentState[event.target.name] = event.target.value;
+        this.setState(currentState);
+    }
+
+    onSubmit (event) {
+        event.preventDefault();
+        console.log ("onSubmit");
+        console.log (this.state.userData);
+        //TODO
     }
 
     render () {
