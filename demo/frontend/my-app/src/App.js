@@ -1,19 +1,20 @@
-import {Route} from 'react-router';
-import {Routes} from 'react-router-dom';
-import MyBooks from './MyBooks';
-import ListBooks from './ListBooks';
+import React, { useEffect } from 'react'
+import { Route, Routes} from 'react-router-dom'
+import axios from 'axios';
 import AddBook from './AddBook';
-import MyBorrows from './MyBorrows';
-import Login from './Login';
 import AddUser from './AddUser';
+import ListBooks from './ListBooks'
+import MyBooks from './MyBooks'
+import Login from './Login'
 import Header from './Header'
-import axios from 'axios'
-import { useState, useEffect } from 'react';
+import MyBorrows from './MyBorrows'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+export const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
+
 
 function App() {
-  /*
   useEffect(() => {
     axios.interceptors.request.use(function (request) {
       const token = sessionStorage.getItem(AUTH_TOKEN_KEY)
@@ -25,7 +26,6 @@ function App() {
       return Promise.reject(error);
     });
   });
-  */
 
   return (
       <div>

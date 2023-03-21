@@ -23,7 +23,7 @@ export default class ListBooks extends React.Component {
                 {
                     id: 2,
                     category: "bd",
-                    title: "tintin"
+                    title: "tintintin"
                 }
             ]
         });

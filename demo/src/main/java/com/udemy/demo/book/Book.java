@@ -1,8 +1,8 @@
 package com.udemy.demo.book;
 
 import com.udemy.demo.user.UserInfo;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 
 @Entity
 public class Book {

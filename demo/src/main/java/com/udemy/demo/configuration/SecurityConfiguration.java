@@ -30,8 +30,6 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users").permitAll()
-                        .requestMatchers("/books").permitAll()
-                        .requestMatchers("/categories").permitAll()
                         .requestMatchers("/authenticate").permitAll()
                         .requestMatchers("/isConnected").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()

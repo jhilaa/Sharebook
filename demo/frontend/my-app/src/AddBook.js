@@ -6,18 +6,36 @@ import "./AddBook.scss"
 
 export default function AddBook() {
     let { bookId } = useParams(); // hook pour récupérer le parmètre de la requête
-    const [bookData, setBookData] = React.useState({title: '', categoryId: 1 })
+    const [bookData, setBookData] = React.useState({
+        title: '',
+        categoryId: ''
+    })
     const [categoriesData, setCategoriesData] = useState([])
     const history = useNavigate(); // hook fourni par react routeur
 
     useEffect(() => {
         axios.get('/categories').then(response => {
             setCategoriesData(response.data)
+            setBookData({
+                title: '',
+                categoryId: response.data[0].id
+            })
+
         })
-    }, []);
-    if (bookId) {
-        return "update book"
-    }
+            .then(() => {
+                if (bookId) {
+                    axios.get(`/books/${bookId}`).then(response => {
+                        setBookData({
+                            title: response.data.title,
+                            categoryId: response.data.category.id
+                        })
+
+                    })
+                }
+
+            })
+    }, [bookId]);
+
     const handleChange = (event) => {
         let currentState = {...bookData};
         currentState[event.target.name] = event.target.value;
@@ -27,7 +45,7 @@ export default function AddBook() {
     const onSubmit = (event) => {
         if (bookId) { //
             event.preventDefault();
-            axios.post(`/books/${bookId}`, {
+            axios.put(`/books/${bookId}`, {
                 ...bookData //objet javascript Book
             }).then(() => {
                 //rediriger vers myBooks
@@ -35,7 +53,7 @@ export default function AddBook() {
             })
         } else {
             event.preventDefault();
-            axios.put('/books', {
+            axios.post('/books', {
                 ...bookData
             }).then(() => {
                 //rediriger vers myBooks
