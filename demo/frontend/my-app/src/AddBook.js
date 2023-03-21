@@ -4,37 +4,30 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom'
 import "./AddBook.scss"
 
+//TODO se mettre sur la bonne catégorie du livre quand in est en mode update
 export default function AddBook() {
     let { bookId } = useParams(); // hook pour récupérer le parmètre de la requête
-    const [bookData, setBookData] = React.useState({
-        title: '',
-        categoryId: ''
-    })
+    const [bookData, setBookData] = React.useState({})
     const [categoriesData, setCategoriesData] = useState([])
     const history = useNavigate(); // hook fourni par react routeur
 
     useEffect(() => {
         axios.get('/categories').then(response => {
             setCategoriesData(response.data)
-            setBookData({
-                title: '',
-                categoryId: response.data[0].id
-            })
-
+            setBookData({title:"",
+                        categoryId : response.data[0].id});
         })
-            .then(() => {
+        .then(() => {
                 if (bookId) {
                     axios.get(`/books/${bookId}`).then(response => {
                         setBookData({
                             title: response.data.title,
-                            categoryId: response.data.category.id
+                            categoryId: response.data.categoryId
                         })
-
                     })
                 }
-
             })
-    }, [bookId]);
+    }, [bookId]); // pour éviter les boucles infinies
 
     const handleChange = (event) => {
         let currentState = {...bookData};
@@ -64,22 +57,22 @@ export default function AddBook() {
 
     return (
         <div className="container-add-book">
-            <h1>Ajouter un livre</h1>
+            <h1>{bookId?"Mettre à jour le livre":"Ajouter un livre"}</h1>
             <form onSubmit={onSubmit}>
                 <div>
                     <label>Nom du livre</label>
-                    <input name="title" type="text" onChange={handleChange} className="form-control"></input>
+                    <input name="title" type="text" value={bookData.title} onChange={handleChange} className="form-control"></input>
                 </div>
                 <div>
                     <label>Catégorie du livre</label>
-                    <select name="categoryId" onChange={handleChange} className="form-control">
+                    <select name="categoryId" value={bookData.categoryId} onChange={handleChange} className="form-select">
                         {categoriesData.map(category => (
-                            <option key={category.id} value={category.id}>{category.label}</option>
+                            <option value={category.id} key={category.id}>{category.label}</option>
                         ))}
                     </select>
                 </div>
                 <div className="container-submit">
-                    <input type="submit" value='Valider' className="btn btn-primary"></input>
+                    <input type="submit" value="Valider" className="btn btn-primary"></input>
                 </div>
             </form>
         </div>

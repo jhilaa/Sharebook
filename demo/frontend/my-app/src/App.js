@@ -15,6 +15,8 @@ export const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
 
 
 function App() {
+  const[userInfo, setUserInfo] = React.useState('');
+
   useEffect(() => {
     axios.interceptors.request.use(function (request) {
       const token = sessionStorage.getItem(AUTH_TOKEN_KEY)
@@ -27,9 +29,10 @@ function App() {
     });
   });
 
+
   return (
       <div>
-          <Header />
+          <Header userInfo={userInfo}/>
         <div className="App">
           <Routes>
             <Route path="listBooks" element={<ListBooks/>} />
@@ -38,7 +41,7 @@ function App() {
             <Route path="addBook/:bookId" element={<AddBook />} />
             <Route path="myBorrows/" element={<MyBorrows />} />
             <Route path="login/" element={<Login />} />
-            <Route path="addUser/" element={<AddUser />} />
+            <Route path="addUser/" element={<AddUser setUserInfo={setUserInfo}/>} />
           </Routes>
         </div>
       </div>)

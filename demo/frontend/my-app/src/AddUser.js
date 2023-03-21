@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 //import axios from 'axios';
 import './AddUser.scss'
 import axios from "axios";
@@ -28,6 +28,9 @@ class AddUser extends React.Component {
                 const jwt = bearerToken.slice(7, bearerToken.length);
                 sessionStorage.setItem(AUTH_TOKEN_KEY,jwt)
             }
+            this.props.setUserInfo(response.data.firstName + " "+ response.data.lastName);
+            // redirection vers listBooks
+            this.props.history("/listBooks");
         })
     }
 
@@ -65,5 +68,8 @@ class AddUser extends React.Component {
         )
     }
 }
-
-export default AddUser
+//wrap and export
+export default function (props) {
+    const history = useNavigate();
+    return <AddUser {...props} history = {history} />
+}
